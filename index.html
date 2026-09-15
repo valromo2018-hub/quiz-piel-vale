@@ -324,7 +324,7 @@ footer p{margin:0 0 8px;max-width:76ch}
 <div class="tray" id="tray" hidden>
   <div class="tray-in">
     <b id="t-count"></b>
-    <span class="num">Total <strong id="t-total"></strong></span>
+    <span class="num" id="t-total-wrap">Total <strong id="t-total"></strong></span>
     <span class="num" id="t-sub-wrap">Con suscripción <strong id="t-sub"></strong></span>
     <a class="ghost" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">WhatsApp ↗</a>
     <a class="primary tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Comprar ↗</a>
@@ -729,8 +729,16 @@ footer p{margin:0 0 8px;max-width:76ch}
   }
   function renderTray(){
     var ids=Object.keys(picked);
-    $("tray").hidden=!ids.length;
-    if(!ids.length) return;
+    $("tray").hidden=false;
+    if(!ids.length){
+      // sin productos todavía: la barra invita a armar la rutina y deja a la mano WhatsApp y la tienda
+      $("t-count").textContent="Arma tu rutina · hasta 10% de descuento";
+      $("t-total-wrap").hidden=true;
+      $("t-sub-wrap").hidden=true;
+      $("t-wa").href=waLink("Hola Vale, vi tu quiz de piel y tengo una duda.");
+      return;
+    }
+    $("t-total-wrap").hidden=false;
     var tot=0, sub=0, anySub=false;
     ids.forEach(function(id){tot+=P[id].p; sub+=(P[id].s||P[id].p); if(P[id].s) anySub=true;});
     $("t-count").textContent=ids.length+(ids.length===1?" producto":" productos")+(SHIP?"":" + envío");
