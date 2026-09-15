@@ -106,14 +106,14 @@ html{scroll-behavior:smooth}
 .promo span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sage);color:var(--surface);font-weight:700;font-size:14px;flex:none}
 .promo a{color:var(--sage);font-weight:600;text-underline-offset:3px}
 .promo.in-box{margin:0 0 12px;max-width:none}
-.hero-art{position:relative;width:100%;max-width:440px;aspect-ratio:1;justify-self:center}
-.hero-art .arch{position:absolute;inset:4% 9% 0 9%;border-radius:999px 999px 28px 28px;background:linear-gradient(180deg,#ece3f3 0%,#f8f4fa 100%);box-shadow:inset 0 0 0 1px rgba(90,61,115,.08)}
-.hero-art img{position:absolute;bottom:7%;height:auto;aspect-ratio:1;object-fit:contain;mix-blend-mode:multiply}
-.hero-art .p1{left:9%;width:40%;bottom:9%}
-.hero-art .p2{left:30%;width:44%;bottom:5%;z-index:2}
-.hero-art .p3{right:8%;width:38%;bottom:10%}
-.hero-art .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% 50%;
-  border-radius:999px 999px 28px 28px;box-shadow:0 22px 44px -26px rgba(31,27,38,.5)}
+.hero-art{position:relative;width:100%;max-width:520px;aspect-ratio:1138/770;justify-self:center;margin-bottom:34px}
+.hero-tag{position:absolute;left:-4%;bottom:-30px;z-index:2;display:flex;align-items:center;gap:10px;max-width:82%;
+  background:#fff;border-radius:999px;padding:6px 18px 6px 6px;box-shadow:0 14px 30px -18px rgba(31,27,38,.45)}
+.hero-tag svg{flex:none;background:#f4eef8;border-radius:50%}
+.hero-tag p{margin:0;font-family:Gloock,Georgia,serif;font-size:17px;line-height:1.15;color:var(--plum)}
+@media(max-width:820px){.hero-art{max-width:100%}.hero-tag{left:8px;bottom:-26px}.hero-tag p{font-size:15px}.hero-tag svg{width:44px;height:44px}}
+.hero-art .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;
+  border-radius:28px;box-shadow:0 22px 44px -26px rgba(31,27,38,.5)}
 @media(max-width:820px){.hero-art{max-width:290px}.hero h1{font-size:clamp(38px,11vw,54px)}}
 
 /* ---------- quiz ---------- */
@@ -266,6 +266,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     </div>
     <div class="hero-art">
       <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">
+      <div class="hero-tag"><span id="hero-face" aria-hidden="true"></span><p>Sigues siendo tú,<br>en tu mejor versión.</p></div>
     </div>
   </section>
 
@@ -645,6 +646,8 @@ footer p{margin:0 0 8px;max-width:76ch}
       '<path d="M29.5 44q2.5 2.5 5 0" stroke="#c0607a" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
     return '<svg viewBox="0 0 64 64" width="'+size+'" height="'+size+'" aria-hidden="true" focusable="false">'+p.back+face+p.front+'</svg>';
   }
+  var heroFace=document.getElementById("hero-face");
+  if(heroFace) heroFace.innerHTML=kface("aparato",56);
   function kindOf(when){
     var w=when.toLowerCase();
     if(w.indexOf("aparato")>=0) return "aparato";
@@ -719,7 +722,7 @@ footer p{margin:0 0 8px;max-width:76ch}
       : (r.devNote && r.devNote.dev===dev && r.devNote.falta>0
           ? "Con el presupuesto que elegiste no alcanza: te faltarían "+mx(r.devNote.falta)+(SHIP?" contando el envío aproximado":"")+". Puedes sumarlo igual o dejarlo para después."
           : "Si te interesa, súmalo a tu total con el botón.");
-    box.innerHTML='<div class="up-head">Si quieres potenciar tu rutina</div>'+
+    box.innerHTML='<div class="up-head">'+kface("aparato",34)+' Si quieres potenciar tu rutina</div>'+
       '<div class="up-body">'+img(dev,x.n)+'<div>'+
         '<h4>'+x.n+'</h4>'+
         '<div class="prices"><span class="now">'+mx(x.p)+'</span><span class="was">'+mx(d.retail)+'</span><span class="save">'+mx(save)+' menos que el precio al por menor</span></div>'+
