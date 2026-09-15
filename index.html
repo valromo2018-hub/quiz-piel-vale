@@ -161,6 +161,9 @@ a.primary,a.ghost{display:inline-block;text-decoration:none;text-align:center}
 .upgrade .up-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
 .upgrade .fine{font-size:12px;color:var(--muted);margin:6px 0 0}
 .upgrade .fitmsg{font-size:14px;font-weight:600;color:var(--amber);background:var(--amber-wash);border-radius:8px;padding:8px 12px;margin:12px 0 0}
+.shopbox .wa{display:inline-flex;margin-top:12px}
+.shopbox .alt-buy{margin:12px 0 0;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.shopbox .alt-buy a{color:var(--plum);font-weight:600}
 .shopbox ol{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink-2);line-height:1.5}
 .shopbox ol li{margin-bottom:2px}
 .shopbox{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;margin-top:18px;
@@ -262,7 +265,7 @@ footer p{margin:0 0 8px;max-width:76ch}
         <a class="primary" href="#quiz">Empezar el quiz</a>
         <small>3 minutos · sin compromiso</small>
       </div>
-      <p class="promo"><span>%</span> Haz tu compra y puedes llevarte hasta un 10% de descuento ahora. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20aplico%20el%20descuento%20de%20hasta%2010%25%3F" target="_blank" rel="noopener">Pregúntame cómo ↗</a></p>
+      <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
     </div>
     <div class="hero-art">
       <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">
@@ -302,21 +305,16 @@ footer p{margin:0 0 8px;max-width:76ch}
       </div>
       <div class="shopbox">
         <div>
-          <p class="promo in-box"><span>%</span> Haz tu compra y puedes llevarte hasta un 10% de descuento ahora. Pregúntame cómo por WhatsApp.</p>
           <strong>¿Cómo la compro?</strong>
-          <ol>
-            <li>Crea tu cuenta de cliente con mi link. Es gratis y solo se hace una vez.</li>
-            <li>Toca <b>"Ver en la tienda"</b> en cada producto de tu rutina y agrégalo a tu carrito.</li>
-            <li>¿Prefieres que te lo arme yo? Mándame tu resultado por WhatsApp y te regreso el carrito listo.</li>
-          </ol>
+          <p class="promo in-box"><span>%</span> <b>Mándame tu lista y yo te la proceso con 10% de descuento.</b></p>
+          <label class="namefield" for="r-name">¿Cómo te llamas? (para saber que eres tú)
+            <input id="r-name" type="text" autocomplete="given-name" placeholder="Tu nombre">
+          </label>
+          <a class="wa" id="r-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria por WhatsApp ↗</a>
+          <p class="alt-buy">¿Prefieres hacerlo tú? <a id="r-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Date de alta como cliente ↗</a> y agrega a tu carrito con <b>"Ver en la tienda"</b> en cada producto.</p>
         </div>
-        <a class="primary" id="r-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Crear mi cuenta de cliente ↗</a>
       </div>
-      <label class="namefield" for="r-name">¿Cómo te llamas? (para saber que eres tú)
-        <input id="r-name" type="text" autocomplete="given-name" placeholder="Tu nombre">
-      </label>
       <div class="actions">
-        <a class="wa" id="r-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarme mi resultado por WhatsApp ↗</a>
         <button type="button" class="ghost" id="r-copy">Copiar mi resultado</button>
         <button type="button" class="ghost" id="r-edit">Ajustar en la calculadora ↓</button>
         <span class="copied" id="r-copied" hidden>Copiado. Pégalo en nuestro chat de WhatsApp.</span>
@@ -345,8 +343,8 @@ footer p{margin:0 0 8px;max-width:76ch}
     <b id="t-count"></b>
     <span class="num" id="t-total-wrap">Total <strong id="t-total"></strong></span>
     <span class="num" id="t-sub-wrap">Con suscripción <strong id="t-sub"></strong></span>
-    <a class="ghost" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">WhatsApp ↗</a>
-    <a class="primary tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Comprar ↗</a>
+    <a class="ghost tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Darme de alta ↗</a>
+    <a class="primary" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandar mi lista · 10% ↗</a>
   </div>
 </div>
 
@@ -669,7 +667,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   function updateWa(){
     if(!lastResult) return;
     var nm=($("r-name").value||"").trim();
-    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. Este fue mi resultado:\n";
+    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista con el 10% de descuento?\n";
     $("r-wa").href=waLink(intro+shareText(routineIds(),TITLES[ans.goal]));
   }
 
@@ -823,7 +821,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     $("tray").hidden=false;
     if(!ids.length){
       // sin productos todavía: la barra invita a armar la rutina y deja a la mano WhatsApp y la tienda
-      $("t-count").textContent="Arma tu rutina · hasta 10% de descuento";
+      $("t-count").textContent="Arma tu lista · 10% de descuento conmigo";
       $("t-total-wrap").hidden=true;
       $("t-sub-wrap").hidden=true;
       $("t-wa").href=waLink("Hola Valeria,vi tu quiz de piel y tengo una duda.");
@@ -836,7 +834,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     $("t-total").textContent=mx(tot+shipping(tot));
     $("t-sub").textContent=mx(sub);
     $("t-sub-wrap").hidden=!anySub;
-    $("t-wa").href=waLink("Hola Valeria, armé mi lista con tu guía de piel.\n"+shareText(ids,"Mi lista de productos"));
+    $("t-wa").href=waLink("Hola Valeria, armé mi lista con tu guía de piel. ¿Me la procesas con el 10% de descuento?\n"+shareText(ids,"Mi lista de productos"));
   }
   $("filters").addEventListener("click",function(e){var b=e.target.closest(".filter"); if(!b) return; filter=b.getAttribute("data-f"); renderFilters(); renderGrid();});
   $("grid").addEventListener("click",function(e){
