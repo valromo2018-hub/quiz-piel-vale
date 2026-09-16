@@ -195,6 +195,11 @@ a.primary,a.ghost{display:inline-block;text-decoration:none;text-align:center}
 .note.warn{background:var(--rose-wash);color:var(--rose)}
 .note.info{background:var(--amber-wash);color:var(--amber)}
 
+.packpick{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px}
+.packpick .pk-q{flex:1 1 100%;font-size:14.5px;font-weight:600}
+.packpick button{font:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:999px;padding:8px 16px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2)}
+.packpick button[aria-pressed="true"]{background:var(--plum-wash);border-color:var(--plum);color:var(--plum-ink)}
+.packpick .pk-note{flex:1 1 100%;font-size:13px;color:var(--muted)}
 .later{margin-top:22px}
 .later h3,.sec h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .later ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -295,8 +300,15 @@ footer p{margin:0 0 8px;max-width:76ch}
       <div class="routine" id="r-routine"></div>
       <div id="r-notes"></div>
       <div class="upgrade" id="r-up" hidden></div>
+      <div class="packpick" id="r-pack">
+        <span class="pk-q">¿Qué tan completo lo quieres?</span>
+        <button type="button" id="pk-basic" aria-pressed="true">Lo esencial</button>
+        <button type="button" id="pk-full" aria-pressed="false">El paquete completo</button>
+        <small class="pk-note" id="pk-note"></small>
+      </div>
       <div class="totalbox">
         <div id="r-lines"></div>
+        <!-- el selector de paquete se pinta arriba del total, ver #r-pack -->
         <div class="tb-total"><span class="lbl">Total<small id="r-count"></small></span><span class="amt" id="r-total"></span></div>
       </div>
       <div class="later" id="r-later-wrap" hidden>
@@ -342,7 +354,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   <div class="tray-in">
     <b id="t-count"></b>
     <span class="num" id="t-total-wrap">Total <strong id="t-total"></strong></span>
-    <span class="num" id="t-sub-wrap">Con suscripción <strong id="t-sub"></strong></span>
+    <span class="num" id="t-sub-wrap">Sin descuento <strong id="t-sub"></strong></span>
     <a class="ghost tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Darme de alta ↗</a>
     <a class="primary" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandar mi lista · 10% ↗</a>
   </div>
@@ -474,9 +486,12 @@ footer p{margin:0 0 8px;max-width:76ch}
     else { persist(); renderQ(); $("q-fill").style.width="100%"; $("q-step").textContent="Listo"; showResult(true); }
   });
   $("q-back").addEventListener("click",function(){if(qi>0){qi--; persist(); renderQ();}});
-  $("q-restart").addEventListener("click",function(){ans={}; qi=0; picked={}; addDev=false; lastDev=null; $("result").hidden=true; persist(); renderQ(); renderGrid(); renderTray();});
+  $("q-restart").addEventListener("click",function(){ans={}; qi=0; picked={}; addDev=false; lastDev=null; packMode=false; $("result").hidden=true; persist(); renderQ(); renderGrid(); renderTray();});
 
   /* ---------- recommendation ---------- */
+  var CAPS={"1500":2000,"4000":4000,"6500":6500,"10000":10000};
+  var DISC=0.10;  // el 10% que Valeria siempre puede dar si le mandan la lista
+  function discount(n){ return Math.round(n*DISC); }
   function recommend(a){
     var steps=[], later=[], notes=[];
     var tight=a.budget==="1500", mid=a.budget==="4000", max=a.budget==="max";
@@ -523,7 +538,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     }
 
     // presupuesto: lo que no cabe se va a "después"
-    var cap = ({"1500":2000,"4000":4000,"6500":6500,"10000":10000})[a.budget] || Infinity;
+    var cap = CAPS[a.budget] || Infinity;
     var order=["collagen","omega","lifepak","bodyserum","essence","uplifting","retinol","linecorr","niacin","napca","sunright"];
     function total(){return steps.reduce(function(s,x){return s+P[x.id].p},0)}
     var guard=0;
@@ -672,7 +687,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   }
 
   /* ---------- total desglosado ---------- */
-  var addDev=false, lastDev=null;
+  var addDev=false, lastDev=null, packMode=false;
   function routineIds(){
     var ids = lastResult ? lastResult.steps.map(function(s){return s.id}) : [];
     if(lastDev) ids.push(lastDev);
@@ -680,14 +695,16 @@ footer p{margin:0 0 8px;max-width:76ch}
   }
   function renderTotals(r, base){
     var n=r.steps.length, devP = lastDev ? P[lastDev].p : 0, sub=base+devP, ship=shipping(sub);
-    var rows=[["Tu rutina ("+n+(n===1?" producto":" productos")+")", mx(base)]];
+    var desc=discount(sub), pagas=sub-desc+ship;
+    var rows=[[(packMode?"Paquete completo (":"Tu rutina (")+n+(n===1?" producto":" productos")+")", mx(base)]];
     if(lastDev) rows.push(["+ "+P[lastDev].n, mx(devP)]);
+    rows.push(["Mi 10% de descuento", "− "+mx(desc)]);
     rows.push(["Envío (aprox.)", SHIP ? mx(SHIP) : "se calcula al pagar"]);
     var html=rows.map(function(x){return '<div class="tb-row"><span>'+x[0]+'</span><span class="num">'+x[1]+'</span></div>'}).join('');
-    if(isFinite(r.cap) && sub+ship>r.cap) html+='<div class="tb-warn">Pasa tu presupuesto por '+mx(sub+ship-r.cap)+(SHIP?"":" sin contar el envío")+'.</div>';
+    if(isFinite(r.cap) && pagas>r.cap) html+='<div class="tb-warn">Pasa tu presupuesto por '+mx(pagas-r.cap)+(SHIP?"":" sin contar el envío")+'.</div>';
     $("r-lines").innerHTML=html;
-    $("r-total").textContent=mx(sub+ship);
-    $("r-count").textContent=SHIP ? "aproximado, con envío" : "más envío";
+    $("r-total").textContent=mx(pagas);
+    $("r-count").textContent=SHIP ? "con mi 10% y envío aprox." : "con mi 10%, más envío";
   }
 
   /* ---------- aparato sugerido (opcional) ---------- */
@@ -745,7 +762,10 @@ footer p{margin:0 0 8px;max-width:76ch}
 
   function showResult(scroll){
     if(Object.keys(ans).length<Q.length) return;
-    var r=recommend(ans); lastResult=r;
+    var ansUsed=ans;
+    if(packMode){ ansUsed={}; for(var k in ans) ansUsed[k]=ans[k]; ansUsed.budget="max"; }
+    var r=recommend(ansUsed); lastResult=r;
+    r.cap = CAPS[ans.budget] || Infinity;   // el aviso se mide contra SU presupuesto, no contra el del paquete
     $("result").hidden=false;
     $("r-title").textContent=TITLES[ans.goal];
     var why = ans.time==="2" ? "Dos pasos: limpiar en la noche y en la mañana, y una crema que ya protege del sol."
@@ -773,6 +793,11 @@ footer p{margin:0 0 8px;max-width:76ch}
     picked={}; r.steps.forEach(function(s){picked[s.id]=true;});
     lastDev = (upDev && addDev) ? upDev : null;
     if(lastDev) picked[lastDev]=true;
+    $("pk-basic").setAttribute("aria-pressed", String(!packMode));
+    $("pk-full").setAttribute("aria-pressed", String(packMode));
+    $("pk-note").textContent = packMode
+      ? "Todo lo que tu piel puede usar, aunque pase de tu presupuesto."
+      : "Solo lo necesario para tu objetivo, dentro de tu presupuesto.";
     renderTotals(r, tot);
     persist(); renderGrid(); renderTray();
     $("r-share").hidden=true; $("r-copied").hidden=true;
@@ -784,7 +809,8 @@ footer p{margin:0 0 8px;max-width:76ch}
     var lines=[title||"Mi rutina"];
     ids.forEach(function(id){lines.push("• "+P[id].n+" — "+mx(P[id].p))});
     var tot=ids.reduce(function(s,id){return s+P[id].p},0);
-    lines.push(SHIP ? "Total aprox. con envío: "+mx(tot+SHIP) : "Total: "+mx(tot)+" + envío");
+    lines.push("Precio de lista: "+mx(tot));
+    lines.push(SHIP ? "Con tu 10% y envío aprox.: "+mx(tot-discount(tot)+SHIP) : "Con tu 10%: "+mx(tot-discount(tot))+" + envío");
     if(Object.keys(ans).length===Q.length) lines.push("Mi piel: "+label("skin",ans.skin)+" · Quiero mejorar: "+label("goal",ans.goal));
     return lines.join("\n");
   }
@@ -797,6 +823,13 @@ footer p{margin:0 0 8px;max-width:76ch}
   $("r-edit").addEventListener("click",function(){ $("calc").scrollIntoView({behavior:"smooth",block:"start"}); });
   $("r-name").addEventListener("input",updateWa);
   $("r-up").addEventListener("click",function(e){ if(e.target.closest("#up-add")){ addDev=!addDev; showResult(false); var b=$("up-add"); if(b) b.focus(); } });
+  $("r-pack").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b) return;
+    packMode = b.id==="pk-full";
+    if(packMode) addDev=false;   // en el paquete completo el aparato ya entra en la rutina
+    showResult(false);
+    var nb=$(b.id); if(nb) nb.focus();
+  });
 
   /* ---------- calculator ---------- */
   function renderFilters(){
@@ -830,10 +863,11 @@ footer p{margin:0 0 8px;max-width:76ch}
     $("t-total-wrap").hidden=false;
     var tot=0, sub=0, anySub=false;
     ids.forEach(function(id){tot+=P[id].p; sub+=(P[id].s||P[id].p); if(P[id].s) anySub=true;});
-    $("t-count").textContent=ids.length+(ids.length===1?" producto":" productos")+(SHIP?"":" + envío");
-    $("t-total").textContent=mx(tot+shipping(tot));
-    $("t-sub").textContent=mx(sub);
-    $("t-sub-wrap").hidden=!anySub;
+    $("t-count").textContent=ids.length+(ids.length===1?" producto":" productos")+" · con mi 10%";
+    $("t-total").textContent=mx(tot-discount(tot)+shipping(tot));
+    // al lado del total va el precio de lista, para que se vea lo que ahorra con el 10%
+    $("t-sub").textContent=mx(tot+shipping(tot));
+    $("t-sub-wrap").hidden=false;
     $("t-wa").href=waLink("Hola Valeria, armé mi lista con tu guía de piel. ¿Me la procesas con el 10% de descuento?\n"+shareText(ids,"Mi lista de productos"));
   }
   $("filters").addEventListener("click",function(e){var b=e.target.closest(".filter"); if(!b) return; filter=b.getAttribute("data-f"); renderFilters(); renderGrid();});
