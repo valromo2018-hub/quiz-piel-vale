@@ -430,6 +430,10 @@ footer p{margin:0 0 8px;max-width:76ch}
       ["nada","Nada o casi nada",""],
       ["basico","Jabón y alguna crema",""],
       ["rutina","Ya tengo mi rutina","Varios productos"]]},
+    {id:"wash",t:"¿Cómo te gustaría lavar tu cara?",h:"Es el paso que más cambia lo que hace todo lo demás.",o:[
+      ["manos","Con mis manos y un limpiador","Lo de siempre"],
+      ["lumispa","Con el LumiSpa","El cepillo de silicona que limpia más a fondo en 1–2 minutos. Ya trae su gel"],
+      ["dime","No sé, dime tú",""]]},
     {id:"sun",t:"¿Usas protector solar todos los días?",h:"Sin protector, casi ningún tratamiento para manchas o líneas funciona.",o:[
       ["si","Sí, diario",""],["aveces","A veces",""],["no","Casi nunca",""]]},
     {id:"time",t:"¿Cuánto tiempo le darías a tu rutina?",h:"Contando mañana y noche.",o:[
@@ -447,7 +451,7 @@ footer p{margin:0 0 8px;max-width:76ch}
 
   var $=function(i){return document.getElementById(i)};
   function mx(n){return "$"+Math.round(n).toLocaleString("es-MX")}
-  function optsFor(q){ return (q.id==="budget" && ans.tech==="si" && q.oTech) ? q.oTech : q.o; }
+  function optsFor(q){ return (q.id==="budget" && (ans.tech==="si"||ans.wash==="lumispa") && q.oTech) ? q.oTech : q.o; }
   var SHIP=150; // envío fijo de Nu Skin México, confirmado por Valeria (15-sep-2026)
   function shipping(subtotal){ return SHIP||0; }
   function shipText(){ return SHIP ? "envío "+mx(SHIP)+" incluido" : "más envío, que Nu Skin calcula al pagar"; }
@@ -502,7 +506,17 @@ footer p{margin:0 0 8px;max-width:76ch}
     if(a.care==="granitos") cleanser="aha";
     if(a.skin==="sensible") cleanser="face180";
     if(a.goal==="cuerpo" && a.time==="2") cleanser=null;
-    if(cleanser) add(cleanser,"Mañana y noche · limpiar");
+    var wantsLumi = a.wash==="lumispa";
+    if(wantsLumi && a.care==="embarazo"){
+      notes.push(["warn","Elegiste lavarte con el LumiSpa. Por precaución dejamos los aparatos fuera durante el embarazo o la lactancia: confírmalo con tu médico y, mientras, va tu limpiador."]);
+      wantsLumi=false;
+    }
+    if(wantsLumi){
+      // eligió el LumiSpa como su forma de lavarse: ese es el paso de limpiar y ya trae su gel
+      add("lumispa","Mañana y noche · limpiar · aparato");
+      notes.push(["info","El Sistema LumiSpa ya trae su gel limpiador, así que no necesitas otro limpiador aparte."]);
+    }
+    else if(cleanser) add(cleanser,"Mañana y noche · limpiar");
 
     // 2. tratamiento según objetivo
     var treat=null;
@@ -557,7 +571,7 @@ footer p{margin:0 0 8px;max-width:76ch}
 
     // 4. aparato: solo si lo pidió y si cabe en su presupuesto, con envío
     var devNote=null;
-    if(a.tech==="si" && !electric){
+    if(a.tech==="si" && !electric && !steps.some(function(x){return P[x.id].c==="aparato"})){
       var pref=GOALDEV[a.goal], cleanIds=["aha","face180"];
       var cands = a.goal==="cuerpo" ? [pref] : (pref==="boost" ? ["boost"] : [pref,"boost"]);
       function sum(list){ return list.reduce(function(s,x){return s+P[x.id].p},0); }
@@ -586,6 +600,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     // si hoy no usa nada: solo lo básico para empezar
     if(a.current==="nada"){
       var core={face180:1,aha:1,ha:1,uplifting:1,daydream:1,sunright:1,epoch:1};
+      if(a.wash==="lumispa") core.lumispa=1;   // si eligió lavarse con LumiSpa, ese es su paso de limpiar
       steps.forEach(function(s){ if(!core[s.id]) later.push(s.id); });
       steps=steps.filter(function(s){return core[s.id]});
       notes.push(["info","Como hoy no usas casi nada, empieza solo con lo básico dos o tres semanas. Cuando tu piel se acostumbre, agrega lo de \"para después\"."]);
@@ -771,7 +786,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     var why = ans.time==="2" ? "Dos pasos: limpiar en la noche y en la mañana, y una crema que ya protege del sol."
       : "Primero lo básico (limpiar, hidratar, proteger) y encima un producto para lo que quieres mejorar.";
     $("r-why").textContent=why;
-    $("r-chips").innerHTML=[label("goal",ans.goal),label("skin",ans.skin),label("age",ans.age),ans.care!=="nada"?label("care",ans.care):null,"Hoy uso: "+label("current",ans.current).toLowerCase(),"Protector: "+label("sun",ans.sun).toLowerCase(),label("time",ans.time),ans.tech!=="no"?"Tecnología: "+label("tech",ans.tech).toLowerCase():null,label("budget",ans.budget)]
+    $("r-chips").innerHTML=[label("goal",ans.goal),label("skin",ans.skin),label("age",ans.age),ans.care!=="nada"?label("care",ans.care):null,"Hoy uso: "+label("current",ans.current).toLowerCase(),ans.wash==="lumispa"?"Lavar: con LumiSpa":null,"Protector: "+label("sun",ans.sun).toLowerCase(),label("time",ans.time),ans.tech!=="no"?"Tecnología: "+label("tech",ans.tech).toLowerCase():null,label("budget",ans.budget)]
       .filter(Boolean)
       .map(function(t){return '<span class="chip">'+t+'</span>'}).join('');
     $("r-routine").innerHTML=r.steps.map(function(s){
