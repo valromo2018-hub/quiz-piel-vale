@@ -215,6 +215,19 @@ a.primary,a.ghost{display:inline-block;text-decoration:none;text-align:center}
 .tb-row .num{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
 .tb-warn{font-size:13.5px;font-weight:600;color:var(--amber);margin-top:4px}
 .tb-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px solid var(--line-strong);margin-top:8px;padding-top:10px}
+.gains{margin-top:18px;border-radius:14px;background:var(--plum-wash);padding:16px 18px}
+.gains h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--plum-ink);margin:0 0 8px}
+.gains p{margin:0 0 8px;font-size:15.5px;line-height:1.5;color:var(--ink)}
+.gains p:last-child{margin:0;font-size:13px;color:var(--ink-2)}
+.brandout{margin-top:28px;border-radius:16px;border:1px solid var(--line);background:var(--surface);padding:20px}
+.brandout h3{margin:0 0 4px;font-family:Gloock,Georgia,serif;font-size:24px;font-weight:400;line-height:1.15}
+.brandout .lead{margin:0 0 14px;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.brandout ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.brandout li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.brandout li b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
+.brandout .bn{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--plum-wash);color:var(--plum-ink);font-weight:700;font-size:13px}
+.brandout .src{margin:14px 0 0;font-size:12px;color:var(--muted);line-height:1.45}
+.brandout .wa{margin-top:16px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .ghost{background:var(--surface);border:1.5px solid var(--line-strong);color:var(--ink);border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer}
 .ghost:hover{border-color:var(--plum)}
@@ -298,6 +311,7 @@ footer p{margin:0 0 8px;max-width:76ch}
       <div class="chips" id="r-chips"></div>
       <ol class="kstrip" id="r-kstrip" aria-label="Tus pasos en orden"></ol>
       <div class="routine" id="r-routine"></div>
+      <div class="gains" id="r-gains"></div>
       <div id="r-notes"></div>
       <div class="upgrade" id="r-up" hidden></div>
       <div class="packpick" id="r-pack">
@@ -331,6 +345,17 @@ footer p{margin:0 0 8px;max-width:76ch}
         <button type="button" class="ghost" id="r-edit">Ajustar en la calculadora ↓</button>
         <span class="copied" id="r-copied" hidden>Copiado. Pégalo en nuestro chat de WhatsApp.</span>
       </div>
+      <section class="brandout" aria-labelledby="brand-title">
+        <h3 id="brand-title">¿Y por qué Nu Skin?</h3>
+        <p class="lead">Si es la primera vez que oyes la marca, esto es lo que dice su catálogo oficial:</p>
+        <ul>
+          <li><span class="bn">✓</span><span><b>Cada producto pasa por seis filtros antes de venderse</b>Le llaman proceso de calidad 6S: selección, origen, especificación, estandarización, seguridad y fundamentación.</span></li>
+          <li><span class="bn">✓</span><span><b>Lo que promete un producto lo tienen que respaldar</b>Según su propio catálogo, cada declaración se apoya en estudios o en literatura científica.</span></li>
+          <li><span class="bn">✓</span><span><b>Son el número 1 del mundo en aparatos de belleza</b>En sistemas de dispositivos de belleza y bienestar de uso doméstico.</span></li>
+        </ul>
+        <p class="src">Fuente del tercer punto: Euromonitor International Limited, investigación de abril–mayo 2024, citada en el catálogo Nu Skin México 2026. Los resultados varían entre cada persona.</p>
+        <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% ↗</a>
+      </section>
       <textarea class="share" id="r-share" readonly hidden aria-label="Texto de tu resultado"></textarea>
     </section>
   </div>
@@ -630,6 +655,15 @@ footer p{margin:0 0 8px;max-width:76ch}
     return {steps:steps,later:later,notes:notes,cap:cap,devNote:devNote};
   }
 
+  /* ---------- lo que gana con su rutina (lenguaje llano, sin promesas médicas) ---------- */
+  var GAINS={
+    manchas:"Un tono más parejo y manchas menos visibles. Es lo más lento de lograr: se nota con constancia y con protector solar diario.",
+    lineas:"Piel más firme y líneas finas menos marcadas, sobre todo alrededor de ojos y boca.",
+    reseca:"Menos sensación de tirantez desde los primeros días y una piel más luminosa.",
+    poros:"Menos brillo a media tarde y poros menos visibles.",
+    cuerpo:"Piel del cuerpo más suave y pareja al tacto.",
+    basica:"Piel limpia, hidratada y protegida: la base que hace que todo lo demás sirva de algo."
+  };
   var TITLES={manchas:"Rutina para emparejar el tono",lineas:"Rutina para líneas y firmeza",reseca:"Rutina para piel hidratada",poros:"Rutina para poros y grasa",cuerpo:"Rutina para la piel del cuerpo",basica:"Tu rutina básica"};
   function label(qid,v){var q=Q.filter(function(x){return x.id===qid})[0]; var o=optsFor(q).filter(function(x){return x[0]===v})[0]; return o?o[1]:""}
 
@@ -699,6 +733,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     var nm=($("r-name").value||"").trim();
     var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista con el 10% de descuento?\n";
     $("r-wa").href=waLink(intro+shareText(routineIds(),TITLES[ans.goal]));
+    var w2=$("r-wa2"); if(w2) w2.href=$("r-wa").href;   // el botón del cierre manda el mismo mensaje
   }
 
   /* ---------- total desglosado ---------- */
@@ -799,6 +834,8 @@ footer p{margin:0 0 8px;max-width:76ch}
       return '<li><span class="kn">'+(i+1)+'</span>'+kface(kindOf(s.when),64)+'<span class="kl">'+stepLabel(s.when)+'</span></li>';
     }).join('');
     $("r-notes").innerHTML=r.notes.map(function(n){return '<p class="note '+n[0]+'">'+n[1]+'</p>'}).join('');
+    $("r-gains").innerHTML='<h3>Qué vas a ver</h3><p>'+(GAINS[ans.goal]||GAINS.basica)+'</p>'+
+      '<p>En las fotos oficiales del catálogo, unos productos muestran cambios en días y otros al mes de uso constante. Los resultados varían entre cada persona.</p>';
     var tot=r.steps.reduce(function(s,x){return s+P[x.id].p},0);
     // el total se pinta en renderTotals(), después de decidir si suma el aparato
     var upDev=renderUpgrade(r);
