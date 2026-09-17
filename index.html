@@ -22,7 +22,7 @@
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Mrs+Saint+Delafield&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Cormorant+Garamond:wght@500;600&display=swap">
 
 <style>
 :root{
@@ -100,14 +100,19 @@ html{scroll-behavior:smooth}
 .rstep .when svg{flex:none}
 .hero .sign{font-family:"Mrs Saint Delafield","Brush Script MT",cursive;font-size:68px;line-height:1;color:var(--plum);margin:2px 0 18px 4px}
 .hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
-.hero-cta .primary{padding:13px 26px;font-size:16px}
+.vr-lockup{display:inline-flex;align-items:center;gap:.6em;color:inherit}
+.vr-mono{width:2.7em;height:2.7em;flex:none;overflow:visible}
+.vr-words{display:flex;flex-direction:column;gap:.34em}
+.vr-name{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:1.6em;letter-spacing:.36em;line-height:.9;margin-right:-.36em}
+.vr-sub{font-family:Figtree,"Segoe UI",sans-serif;font-weight:700;font-size:.46em;letter-spacing:.24em;text-transform:uppercase;border-top:1px solid currentColor;padding-top:.62em;opacity:.82;white-space:nowrap}
+.hero-brand{font-size:15px;color:var(--ink);margin:0 0 22px}.hero-cta .primary{padding:13px 26px;font-size:16px}
 .hero-cta small{font-size:14px;color:var(--muted)}
 .hero-direct{flex:1 1 100%;font-size:14.5px;font-weight:600;color:var(--plum)}
 .promo{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:18px 0 0;padding:10px 14px;border-radius:12px;background:var(--sage-wash);color:var(--ink);font-size:15px;line-height:1.4;max-width:46ch}
 .promo span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sage);color:var(--surface);font-weight:700;font-size:14px;flex:none}
 .promo a{color:var(--sage);font-weight:600;text-underline-offset:3px}
 .promo.in-box{margin:0 0 12px;max-width:none}
-.hero-art{position:relative;width:100%;max-width:520px;aspect-ratio:1138/770;justify-self:center;margin-bottom:34px}
+.hero-art{position:relative;width:100%;max-width:520px;aspect-ratio:1138/770;justify-self:center}
 .hero-tag{position:absolute;left:-4%;bottom:-30px;z-index:2;display:flex;align-items:center;gap:10px;max-width:82%;
   background:#fff;border-radius:999px;padding:6px 18px 6px 6px;box-shadow:0 14px 30px -18px rgba(31,27,38,.45)}
 .hero-tag svg{flex:none;background:#E1F1F8;border-radius:50%}
@@ -274,12 +279,13 @@ footer p{margin:0 0 8px;max-width:76ch}
 <div class="wrap">
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-text">
-      <p class="kicker">Asesora independiente Nu Skin</p>
+      <div class="hero-brand">
+        <div class="vr-lockup" role="img" aria-label="Valeria, asesora independiente Nu Skin"><svg class="vr-mono" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M32 2.5A29.5 29.5 0 0 1 60.1 23" fill="none" stroke="#1491C8" stroke-width="3.4" stroke-linecap="round"/><text x="32" y="44.5" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="37" font-weight="500" fill="currentColor">V</text></svg><span class="vr-words"><span class="vr-name">VALERIA</span><span class="vr-sub">Asesora independiente · Nu Skin</span></span></div>
+      </div>
       <h1 id="hero-title">¿Qué necesita tu piel?</h1>
       <p class="hero-greet">Tu momento de autocuidado</p>
       <p class="hero-note">Cuidarte también es quererte. Armé esto para ti con todo mi cariño: en unas preguntas te digo qué necesita tu piel, cómo consentirla y cuánto sale.</p>
       <p class="hero-note">Si algo te late, yo te acompaño en todo. Y si no, igual me encanta que te regales este ratito.</p>
-      <p class="sign" aria-label="Firma: Valeria">Valeria</p>
       <div class="hero-cta">
         <a class="primary" href="#quiz">Haz tu quiz y arma tu pedido</a>
         <a class="hero-direct" href="#calc">¿Ya sabes qué quieres? Arma tu pedido directo →</a>
@@ -288,9 +294,7 @@ footer p{margin:0 0 8px;max-width:76ch}
       <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
     </div>
     <div class="hero-art">
-      <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">
-      <div class="hero-tag"><span id="hero-face" aria-hidden="true"></span><p>Sigues siendo tú,<br>en tu mejor versión.</p></div>
-    </div>
+      <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">    </div>
   </section>
 
   <div class="narrow">
