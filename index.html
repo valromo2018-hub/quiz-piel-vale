@@ -102,6 +102,7 @@ html{scroll-behavior:smooth}
 .hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
 .hero-cta .primary{padding:13px 26px;font-size:16px}
 .hero-cta small{font-size:14px;color:var(--muted)}
+.hero-direct{flex:1 1 100%;font-size:14.5px;font-weight:600;color:var(--plum)}
 .promo{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:18px 0 0;padding:10px 14px;border-radius:12px;background:var(--sage-wash);color:var(--ink);font-size:15px;line-height:1.4;max-width:46ch}
 .promo span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sage);color:var(--surface);font-weight:700;font-size:14px;flex:none}
 .promo a{color:var(--sage);font-weight:600;text-underline-offset:3px}
@@ -280,7 +281,8 @@ footer p{margin:0 0 8px;max-width:76ch}
       <p class="hero-note">Si algo te late, te ayudo a pedirlo. Y si no, igual gracias por probarlo.</p>
       <p class="sign" aria-label="Firma: Valeria">Valeria</p>
       <div class="hero-cta">
-        <a class="primary" href="#quiz">Empezar el quiz</a>
+        <a class="primary" href="#quiz">Haz tu quiz y arma tu pedido</a>
+        <a class="hero-direct" href="#calc">¿Ya sabes qué quieres? Arma tu pedido directo →</a>
         <small>3 minutos · sin compromiso</small>
       </div>
       <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
@@ -361,7 +363,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   </div>
 
   <section class="sec" id="calc">
-    <h2>Arma o ajusta tu rutina</h2>
+    <h2>Arma tu pedido</h2>
     <p class="sub">Agrega o quita productos y abajo ves el total. Si hiciste el quiz, tu rutina ya está marcada.</p>
     <div class="filters" id="filters"></div>
     <div class="grid" id="grid"></div>
