@@ -1,25 +1,5 @@
-<!doctype html>
-<html lang="es">
-<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>¿Qué necesita tu piel? · Quiz de Valeria</title>
-<meta name="description" content="Estoy empezando mi emprendimiento con Nu Skin y armé este quiz: en 10 preguntas te digo qué usar, en qué orden y cuánto sale.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://valromo2018-hub.github.io/quiz-piel-vale/">
-<meta property="og:site_name" content="Quiz de piel de Valeria">
-<meta property="og:title" content="¿Qué necesita tu piel?">
-<meta property="og:description" content="Quiz de 3 minutos de Valeria, asesora independiente Nu Skin: tu rutina con productos, orden de uso y precios.">
-<meta property="og:image" content="https://valromo2018-hub.github.io/quiz-piel-vale/vista-previa.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="es_MX">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#5a3d73">
-<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
-</head>
-<body>
+<title>¿Qué necesita tu piel?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap">
@@ -387,6 +367,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   <footer>
     <p><strong>¿Dudas?</strong> Escríbeme por <a href="https://wa.me/525560556074" target="_blank" rel="noopener" style="color:var(--plum)">WhatsApp al 55 6055 6074</a> · <a href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener" style="color:var(--plum)">mi tienda Nu Skin</a></p>
     <p><strong>Sitio web creado por un Afiliado de Marca independiente de Nu Skin.</strong> Valeria es asesora independiente; esta página es suya y no es un sitio oficial de Nu Skin. Fotos y precios del catálogo Nu Skin México 2026, consultado el 14 de septiembre de 2026. Los precios pueden cambiar; confírmalos antes de comprar.</p>
+    <p>Cuando terminas el test, o cuando me mandas tu lista, guardo tu nombre y tu resultado en una hoja mía para poder atenderte. Nada más: ni se comparte ni se usa para otra cosa. Si quieres que lo borre, dímelo y lo borro.</p>
     <p>El catálogo marca "precio" y "precio en suscripción". La suscripción es un pedido que se repite y cobra cada mes hasta que la cancelas.</p>
     <p>Esto es una orientación general, no consejo médico. Si tienes alguna condición de la piel, estás embarazada o tomas medicamentos, consulta a tu médico o dermatólogo antes de usar un producto nuevo o un suplemento.</p>
   </footer>
@@ -529,7 +510,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     var b=e.target.closest(".opt"); if(!b) return;
     ans[Q[qi].id]=b.getAttribute("data-v");
     if(qi<Q.length-1){qi++; persist(); renderQ();}
-    else { persist(); renderQ(); $("q-fill").style.width="100%"; $("q-step").textContent="Listo"; showResult(true); }
+    else { persist(); renderQ(); $("q-fill").style.width="100%"; $("q-step").textContent="Listo"; showResult(true); avisar("termino el test"); }
   });
   $("q-back").addEventListener("click",function(){if(qi>0){qi--; persist(); renderQ();}});
   $("q-restart").addEventListener("click",function(){ans={}; qi=0; picked={}; addDev=false; lastDev=null; packMode=false; $("result").hidden=true; persist(); renderQ(); renderGrid(); renderTray();});
@@ -895,12 +876,42 @@ footer p{margin:0 0 8px;max-width:76ch}
     return "Hola! Hice este test de piel de 3 minutos y me dijo justo qué necesito" + (nm?" (me lo pasó "+nm+")":"") +
       ". Pruébalo, está padrísimo: " + SITE;
   }
+  /* ---------- el resultado se guarda en la hoja de Valeria ---------- */
+  var FORMA = "https://docs.google.com/forms/d/e/1FAIpQLSfkf5s68gTiWGEiLVHEd61UlLufP-tj1RHhQ_mIoWL8Plqp0g/formResponse";
+  var C_NOMBRE = "entry.2058487899", C_RESULTADO = "entry.310095315";
+  var yaAvisado = {};
+  function avisar(via){
+    if(!FORMA || !lastResult || yaAvisado[via]) return;
+    yaAvisado[via] = true;
+    var ids = routineIds();
+    var tot = ids.reduce(function(s,id){return s+P[id].p},0);
+    var lineas = [
+      via,
+      "Objetivo: " + label("goal", ans.goal),
+      "Piel: " + label("skin", ans.skin),
+      "Edad: " + label("age", ans.age),
+      "Presupuesto: " + label("budget", ans.budget),
+      "Hoy usa: " + label("current", ans.current),
+      "Lava con: " + label("wash", ans.wash),
+      "Tecnologia: " + label("tech", ans.tech),
+      "Productos: " + ids.map(function(id){return P[id].n}).join(", "),
+      "Con tu 10% y envio: " + mx(tot - discount(tot) + shipping(tot))
+    ];
+    try{
+      var cuerpo = new URLSearchParams();
+      cuerpo.append(C_NOMBRE, ($("r-name").value||"").trim() || "(sin nombre)");
+      cuerpo.append(C_RESULTADO, lineas.join("\n"));
+      fetch(FORMA, { method:"POST", mode:"no-cors", body: cuerpo });
+    }catch(e){}
+  }
+
   function updateRefer(){ var a=$("r-refer"); if(a) a.href="https://wa.me/?text="+encodeURIComponent(referText()); }
   $("r-refer").addEventListener("click", updateRefer);
   $("r-link").addEventListener("click", function(){ copy(SITE); });
   $("r-copy").addEventListener("click",function(){ copy(shareText(routineIds(),TITLES[ans.goal])); });
   $("r-edit").addEventListener("click",function(){ $("calc").scrollIntoView({behavior:"smooth",block:"start"}); });
   $("r-name").addEventListener("input",updateWa);
+  ["r-wa","r-wa2","t-wa"].forEach(function(id){ var b=$(id); if(b) b.addEventListener("click", function(){ avisar("me mando su lista"); }); });
   $("r-up").addEventListener("click",function(e){ if(e.target.closest("#up-add")){ addDev=!addDev; showResult(false); var b=$("up-add"); if(b) b.focus(); } });
   $("r-pack").addEventListener("click",function(e){
     var b=e.target.closest("button"); if(!b) return;
@@ -962,6 +973,3 @@ footer p{margin:0 0 8px;max-width:76ch}
   if(Object.keys(ans).length===Q.length) showResult(false);
 })();
 </script>
-
-</body>
-</html>
