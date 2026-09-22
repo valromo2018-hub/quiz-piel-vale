@@ -64,6 +64,8 @@ html{scroll-behavior:smooth}
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:56px 28px}
 @media(max-width:820px){.hero{grid-template-columns:1fr;gap:18px;padding-block:20px 8px}.hero-art{order:-1;max-width:320px}}
 .hero h1{font-size:clamp(40px,6.4vw,66px);line-height:1.02;margin:0 0 18px}
+.hero h1 .glass{background:linear-gradient(104deg,#8E7CB4 0%,#C8B6D8 22%,#E8E4EE 40%,#CDBFE0 58%,#8E7CB4 78%,#B79FC9 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-eyebrow{margin:0 0 10px;font-size:14px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--plum)}
 .hero-note{font-size:17.5px;color:var(--ink-2);margin:0 0 12px;max-width:46ch}
 .hero-greet{font-family:Gloock,Georgia,serif;font-size:26px;line-height:1.1;color:var(--plum);margin:0 0 8px}
 .namefield{display:flex;flex-direction:column;gap:6px;margin-top:18px;max-width:340px;font-size:14.5px;font-weight:600;color:var(--ink)}
@@ -265,9 +267,10 @@ footer p{margin:0 0 8px;max-width:76ch}
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-text">
       <div class="hero-brand"><!--sello--><svg width="96" height="96" viewBox="0 0 200 200" role="img" aria-label="Valeria Romo, autocuidado Nu Skin"><defs><linearGradient id="sq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E2CB97"/><stop offset=".5" stop-color="#B8955A"/><stop offset="1" stop-color="#D3B37A"/></linearGradient></defs><circle cx="100" cy="100" r="96" fill="none" stroke="url(#sq)" stroke-width="1.6"/><circle cx="100" cy="100" r="62" fill="#EAD7D4" stroke="url(#sq)" stroke-width="1.2"/><path d="M66 72 L84 128 L102 72" fill="none" stroke="#3A3A3F" stroke-width="3.6"/><path d="M71 72 L84 113 L97 72" fill="none" stroke="#A8834A" stroke-width="1.1"/><path d="M110 128 V72 H122 A14 14 0 0 1 122 100 H110 M121 100 L136 128" fill="none" stroke="#A8834A" stroke-width="3.6"/></svg><!--/sello--></div>
-      <h1 id="hero-title">¿Qué necesita tu piel?</h1>
-      <p class="hero-greet">Tu momento de autocuidado</p>
-      <p class="hero-note">Cuidarte también es quererte. Armé esto para ti con todo mi cariño: en unas preguntas te digo qué necesita tu piel, cómo consentirla y cuánto sale.</p>
+      <p class="hero-eyebrow">Piel de cristal · 4 pasos</p>
+      <h1 id="hero-title">Logra tu <span class="glass">glass skin</span></h1>
+      <p class="hero-greet">La rutina coreana que a todas nos gusta, en cuatro pasos</p>
+      <p class="hero-note">Piel lisa que refleja la luz. En unas preguntas te digo qué necesita la tuya, en qué orden se usa y cuánto sale —sin los diez pasos y sin reponer todo cada trimestre.</p>
       <p class="hero-note">Si algo te late, yo te acompaño en todo. Y si no, igual me encanta que te regales este ratito.</p>
       <div class="hero-cta">
         <a class="primary" href="#quiz">Haz tu quiz y arma tu pedido</a>
@@ -662,7 +665,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     cuerpo:"Piel del cuerpo más suave y pareja al tacto.",
     basica:"Piel limpia, hidratada y protegida: la base que hace que todo lo demás sirva de algo."
   };
-  var TITLES={manchas:"Rutina para emparejar el tono",lineas:"Rutina para líneas y firmeza",reseca:"Rutina para piel hidratada",poros:"Rutina para poros y grasa",cuerpo:"Rutina para la piel del cuerpo",basica:"Tu rutina básica"};
+  var TITLES={manchas:"Tu glass skin: tono parejo",lineas:"Tu glass skin: firmeza",reseca:"Tu glass skin: hidratación",poros:"Tu glass skin: poros limpios",cuerpo:"Tu rutina para el cuerpo",basica:"Tu glass skin, lo esencial"};
   function label(qid,v){var q=Q.filter(function(x){return x.id===qid})[0]; var o=optsFor(q).filter(function(x){return x[0]===v})[0]; return o?o[1]:""}
 
   /* ---------- caritas de skincare para cada paso ---------- */
@@ -718,10 +721,10 @@ footer p{margin:0 0 8px;max-width:76ch}
     if(w.indexOf("tratamiento")>=0) return "tratamiento";
     return "hidratar";
   }
-  var KLABEL={limpiar:"Limpiar",tratamiento:"Sérum",hidratar:"Hidratar",proteger:"Proteger",suplemento:"Suplemento",aparato:"Aparato",cuerpo:"Cuerpo"};
+  var KLABEL={limpiar:"Limpiar",tratamiento:"Tratar",hidratar:"Hidratar",proteger:"Sellar + FPS",suplemento:"Inner beauty",aparato:"Limpiar",cuerpo:"Cuerpo"};
   function stepLabel(when){
     var w=when.toLowerCase();
-    if(w.indexOf("hidratar y proteger")>=0) return "Hidratar y proteger";
+    if(w.indexOf("hidratar y proteger")>=0) return "Sellar + FPS";
     return KLABEL[kindOf(when)];
   }
 
