@@ -235,6 +235,10 @@ a.primary,a.ghost{display:inline-block;text-decoration:none;text-align:center}
 .brandout .bn{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--plum-wash);color:var(--plum-ink);font-weight:700;font-size:13px}
 .brandout .src{margin:14px 0 0;font-size:12px;color:var(--muted);line-height:1.45}
 .brandout .wa{margin-top:16px}
+.refer{margin-top:18px;border-radius:16px;background:var(--plum-wash);padding:20px}
+.refer h3{margin:0 0 6px;font-family:Gloock,Georgia,serif;font-weight:400;font-size:22px;color:var(--plum-ink)}
+.refer p{margin:0 0 14px;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.refer-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .ghost{background:var(--surface);border:1.5px solid var(--line-strong);color:var(--ink);border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer}
 .ghost:hover{border-color:var(--plum)}
@@ -360,6 +364,14 @@ footer p{margin:0 0 8px;max-width:76ch}
         </ul>
         <p class="src">Fuente del tercer punto: Euromonitor International Limited, investigación de abril–mayo 2024, citada en el catálogo Nu Skin México 2026. Los resultados varían entre cada persona.</p>
         <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% ↗</a>
+      </section>
+      <section class="refer" aria-labelledby="refer-title">
+        <h3 id="refer-title">¿Le sirve a una amiga?</h3>
+        <p>Pásale el test. A ella le dice qué necesita su piel y a ti te dejo un detalle cuando alguien llega por tu recomendación.</p>
+        <div class="refer-acts">
+          <a class="wa" id="r-refer" href="#" target="_blank" rel="noopener">Pasarle el test por WhatsApp ↗</a>
+          <button type="button" class="ghost" id="r-link">Copiar el link</button>
+        </div>
       </section>
       <textarea class="share" id="r-share" readonly hidden aria-label="Texto de tu resultado"></textarea>
     </section>
@@ -738,7 +750,8 @@ footer p{margin:0 0 8px;max-width:76ch}
     var nm=($("r-name").value||"").trim();
     var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista con el 10% de descuento?\n";
     $("r-wa").href=waLink(intro+shareText(routineIds(),TITLES[ans.goal]));
-    var w2=$("r-wa2"); if(w2) w2.href=$("r-wa").href;   // el botón del cierre manda el mismo mensaje
+    var w2=$("r-wa2"); if(w2) w2.href=$("r-wa").href;
+    updateRefer();   // el botón del cierre manda el mismo mensaje
   }
 
   /* ---------- total desglosado ---------- */
@@ -876,6 +889,15 @@ footer p{margin:0 0 8px;max-width:76ch}
     var fallback=function(){ var ta=$("r-share"); ta.hidden=false; ta.value=text; ta.focus(); ta.select(); $("r-copied").hidden=false; $("r-copied").textContent="Selecciona el texto de abajo y cópialo."; };
     try{ navigator.clipboard.writeText(text).then(done,fallback); }catch(e){ fallback(); }
   }
+  var SITE = "https://valromo2018-hub.github.io/quiz-piel-vale/";
+  function referText(){
+    var nm=($("r-name").value||"").trim();
+    return "Hola! Hice este test de piel de 3 minutos y me dijo justo qué necesito" + (nm?" (me lo pasó "+nm+")":"") +
+      ". Pruébalo, está padrísimo: " + SITE;
+  }
+  function updateRefer(){ var a=$("r-refer"); if(a) a.href="https://wa.me/?text="+encodeURIComponent(referText()); }
+  $("r-refer").addEventListener("click", updateRefer);
+  $("r-link").addEventListener("click", function(){ copy(SITE); });
   $("r-copy").addEventListener("click",function(){ copy(shareText(routineIds(),TITLES[ans.goal])); });
   $("r-edit").addEventListener("click",function(){ $("calc").scrollIntoView({behavior:"smooth",block:"start"}); });
   $("r-name").addEventListener("input",updateWa);
