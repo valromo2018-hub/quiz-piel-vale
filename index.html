@@ -330,7 +330,7 @@ footer p{margin:0 0 8px;max-width:76ch}
             <input id="r-name" type="text" autocomplete="given-name" placeholder="Tu nombre">
           </label>
           <a class="wa" id="r-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria por WhatsApp ↗</a>
-          <p class="alt-buy">¿Prefieres hacerlo tú? <a id="r-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Date de alta como cliente ↗</a> y agrega a tu carrito con <b>"Ver en la tienda"</b> en cada producto.</p>
+          <p class="alt-buy">¿Prefieres hacerlo tú? <a id="r-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Abre tu cuenta de clienta conmigo ↗</a> (es gratis y queda ligada a mí) y luego compras a la hora que quieras con <b>"Ver en la tienda"</b> en cada producto.</p>
         </div>
       </div>
       <div class="actions">
@@ -370,7 +370,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   </section>
 
   <footer>
-    <p><strong>¿Dudas?</strong> Escríbeme por <a href="https://wa.me/525560556074" target="_blank" rel="noopener" style="color:var(--plum)">WhatsApp al 55 6055 6074</a> · <a href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener" style="color:var(--plum)">mi tienda Nu Skin</a></p>
+    <p><strong>¿Dudas?</strong> Escríbeme por <a href="https://wa.me/525560556074" target="_blank" rel="noopener" style="color:var(--plum)">WhatsApp al 55 6055 6074</a> · <a href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener" style="color:var(--plum)">abrir tu cuenta de clienta conmigo</a></p>
     <p><strong>Sitio web creado por un Afiliado de Marca independiente de Nu Skin.</strong> Valeria es asesora independiente; esta página es suya y no es un sitio oficial de Nu Skin. Fotos y precios del catálogo Nu Skin México 2026, consultado el 14 de septiembre de 2026. Los precios pueden cambiar; confírmalos antes de comprar.</p>
     <p>Cuando terminas el test, o cuando me mandas tu lista, guardo tu nombre y tu resultado en una hoja mía para poder atenderte. Nada más: ni se comparte ni se usa para otra cosa. Si quieres que lo borre, dímelo y lo borro.</p>
     <p>El catálogo marca "precio" y "precio en suscripción". La suscripción es un pedido que se repite y cobra cada mes hasta que la cancelas.</p>
@@ -383,7 +383,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     <b id="t-count"></b>
     <span class="num" id="t-total-wrap">Total <strong id="t-total"></strong></span>
     <span class="num" id="t-sub-wrap">Sin descuento <strong id="t-sub"></strong></span>
-    <a class="ghost tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Darme de alta ↗</a>
+    <a class="ghost tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Abrir mi cuenta ↗</a>
     <a class="primary" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandar mi lista · 10% ↗</a>
   </div>
 </div>
@@ -435,7 +435,9 @@ footer p{margin:0 0 8px;max-width:76ch}
     collagen:"beauty-focus-collagen-plus", tegreen:"tegreen?variant=08003440", omega:"optimum-omega?variant=08003103",
     lifepak:"lifepak?variant=08003631", nubi:"nu-bi-pina-coco?variant=08004532", g3:"g3-juice-1-bottle?variant=08170044"
   };
-  function store(id){ return URLS[id] ? '<a class="storelink" href="'+BASE+URLS[id]+'" target="_blank" rel="noopener">Ver en la tienda ↗</a>' : ''; }
+  var PATROCINIO = "MXN1919677";   // su ID de Afiliada: asi la compra queda a su nombre
+  function urlTienda(id){ var u = BASE + URLS[id]; return u + (u.indexOf("?") >= 0 ? "&" : "?") + "sponsor=" + PATROCINIO; }
+  function store(id){ return URLS[id] ? '<a class="storelink" href="'+urlTienda(id)+'" target="_blank" rel="noopener">Ver en la tienda ↗</a>' : ''; }
 
   /* ---------- questions ---------- */
   var Q=[
