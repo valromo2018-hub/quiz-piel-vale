@@ -218,6 +218,7 @@ a.primary,a.ghost{display:inline-block;text-decoration:none;text-align:center}
 .brandout .src{margin:14px 0 0;font-size:12px;color:var(--muted);line-height:1.45}
 .brandout .wa{margin-top:16px}
 .refer{margin-top:18px;border-radius:16px;background:var(--plum-wash);padding:20px}
+.refer-mini{margin:10px 0 0;font-size:14px;color:var(--muted);word-break:break-all}
 .refer h3{margin:0 0 6px;font-family:Gloock,Georgia,serif;font-weight:400;font-size:22px;color:var(--plum-ink)}
 .refer p{margin:0 0 14px;font-size:14.5px;color:var(--ink-2);line-height:1.5}
 .refer-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -349,12 +350,13 @@ footer p{margin:0 0 8px;max-width:76ch}
         <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% ↗</a>
       </section>
       <section class="refer" aria-labelledby="refer-title">
-        <h3 id="refer-title">¿Le sirve a una amiga?</h3>
-        <p>Pásale el test. A ella le dice qué necesita su piel y a ti te dejo un detalle cuando alguien llega por tu recomendación.</p>
+        <h3 id="refer-title">Mi 10% también es para quien te lo pase</h3>
+        <p>Si le mandas el test a una amiga, su pedido lleva el mismo descuento que el tuyo. Y al tuyo, cuando alguien llegue por ti, le agrego un detalle de mi parte.</p>
         <div class="refer-acts">
           <a class="wa" id="r-refer" href="#" target="_blank" rel="noopener">Pasarle el test por WhatsApp ↗</a>
-          <button type="button" class="ghost" id="r-link">Copiar el link</button>
+          <button type="button" class="ghost" id="r-link">Copiar mi link</button>
         </div>
+        <p class="refer-mini" id="r-mine"></p>
       </section>
       <textarea class="share" id="r-share" readonly hidden aria-label="Texto de tu resultado"></textarea>
     </section>
@@ -874,10 +876,20 @@ footer p{margin:0 0 8px;max-width:76ch}
     try{ navigator.clipboard.writeText(text).then(done,fallback); }catch(e){ fallback(); }
   }
   var SITE = "https://valromo2018-hub.github.io/quiz-piel-vale/";
+  /* quien me pasó el test: viaja en el link (?de=) y se guarda para el aviso */
+  var DE = "";
+  try{
+    DE = (new URLSearchParams(location.search).get("de") || "").slice(0,40).trim();
+    if(DE) localStorage.setItem("piel-de", DE); else DE = localStorage.getItem("piel-de") || "";
+  }catch(e){}
+  function miLink(){
+    var nm = ($("r-name").value||"").trim();
+    return nm ? SITE + "?de=" + encodeURIComponent(nm) : SITE;
+  }
   function referText(){
     var nm=($("r-name").value||"").trim();
     return "Hola! Hice este test de piel de 3 minutos y me dijo justo qué necesito" + (nm?" (me lo pasó "+nm+")":"") +
-      ". Pruébalo, está padrísimo: " + SITE;
+      ". Pruébalo y dile que vas de mi parte, así te dan el mismo descuento que a mí: " + miLink();
   }
   /* ---------- el resultado se guarda en la hoja de Valeria ---------- */
   var FORMA = "https://docs.google.com/forms/d/e/1FAIpQLSfkf5s68gTiWGEiLVHEd61UlLufP-tj1RHhQ_mIoWL8Plqp0g/formResponse";
@@ -898,7 +910,8 @@ footer p{margin:0 0 8px;max-width:76ch}
       "Lava con: " + label("wash", ans.wash),
       "Tecnologia: " + label("tech", ans.tech),
       "Productos: " + ids.map(function(id){return P[id].n}).join(", "),
-      "Con tu 10% y envio: " + mx(tot - discount(tot) + shipping(tot))
+      "Con tu 10% y envio: " + mx(tot - discount(tot) + shipping(tot)),
+      DE ? "Llego por: " + DE : "Llego directo"
     ];
     try{
       var cuerpo = new URLSearchParams();
@@ -908,9 +921,15 @@ footer p{margin:0 0 8px;max-width:76ch}
     }catch(e){}
   }
 
-  function updateRefer(){ var a=$("r-refer"); if(a) a.href="https://wa.me/?text="+encodeURIComponent(referText()); }
+  function updateRefer(){
+    var a=$("r-refer"); if(a) a.href="https://wa.me/?text="+encodeURIComponent(referText());
+    var m=$("r-mine"); if(m){
+      var nm=($("r-name").value||"").trim();
+      m.textContent = nm ? "Tu link: " + miLink() : "Escribe tu nombre arriba y tu link queda listo para compartir.";
+    }
+  }
   $("r-refer").addEventListener("click", updateRefer);
-  $("r-link").addEventListener("click", function(){ copy(SITE); });
+  $("r-link").addEventListener("click", function(){ copy(miLink()); });
   $("r-copy").addEventListener("click",function(){ copy(shareText(routineIds(),TITLES[ans.goal])); });
   $("r-edit").addEventListener("click",function(){ $("calc").scrollIntoView({behavior:"smooth",block:"start"}); });
   $("r-name").addEventListener("input",updateWa);
