@@ -1,0 +1,83 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listo, quedaste</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  :root{--leche:#FCFAF9;--papel:#F1ECE8;--lila:#6E5C91;--lila-claro:#F4F0F8;--tinta:#1E1A26;--gris:#6C6674;--linea:#E8E1DC}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--leche);color:var(--tinta);font-family:Figtree,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:560px;margin:0 auto;padding:44px 20px 70px}
+  .sello{display:block;margin:0 auto 22px}
+  h1{font-family:"Gothic A1",sans-serif;font-weight:800;font-size:clamp(28px,7vw,40px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}
+  p{font-size:17.5px;line-height:1.5;color:var(--gris);margin:0 0 14px}
+  p b{color:var(--tinta)}
+  .caja{background:#fff;border:1px solid var(--linea);border-radius:18px;padding:22px;margin:24px 0}
+  .caja h2{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:20px;margin:0 0 8px}
+  a.btn{display:inline-block;background:var(--lila);color:#fff;text-decoration:none;font-weight:700;font-size:18px;padding:15px 26px;border-radius:999px;margin-top:6px}
+  .correo{font-size:15px;color:var(--lila);font-weight:600;word-break:break-all}
+  .fine{margin-top:26px;font-size:13px;line-height:1.5;color:#918A9B}
+  form{display:grid;gap:10px;margin-top:10px}
+  input{font:inherit;font-size:17px;padding:13px 14px;border:1px solid var(--linea);border-radius:12px;background:var(--leche)}
+  button{font:inherit;font-weight:700;font-size:17px;padding:14px 22px;border-radius:999px;border:none;background:var(--lila);color:#fff;cursor:pointer}
+</style>
+
+<div class="wrap">
+  <svg class="sello" width="88" height="88" viewBox="0 0 200 200" role="img" aria-label="Valeria Romo"><defs><linearGradient id="s1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E2CB97"/><stop offset=".5" stop-color="#B8955A"/><stop offset="1" stop-color="#D3B37A"/></linearGradient></defs><circle cx="100" cy="100" r="96" fill="none" stroke="url(#s1)" stroke-width="1.6"/><circle cx="100" cy="100" r="62" fill="#EAD7D4" stroke="url(#s1)" stroke-width="1.2"/><path id="s1r" d="M100,100 m-79,0 a79,79 0 1,1 158,0 a79,79 0 1,1 -158,0" fill="none"/><text font-family="Poiret One, sans-serif" font-size="13.5" letter-spacing="5.4" fill="#9C7A45"><textPath href="#s1r">VALERIA ROMO · AUTOCUIDADO ·</textPath></text><path d="M66 72 L84 128 L102 72" fill="none" stroke="#3A3A3F" stroke-width="3.6"/><path d="M71 72 L84 113 L97 72" fill="none" stroke="#A8834A" stroke-width="1.1"/><path d="M110 128 V72 H122 A14 14 0 0 1 122 100 H110 M121 100 L136 128" fill="none" stroke="#A8834A" stroke-width="3.6"/></svg>
+
+  <div id="ok" hidden>
+    <h1>Listo, ya quedaste.</h1>
+    <p>Te voy a mandar cosas de cuidado de la piel: qué sirve, qué no, y cuánto cuesta de verdad. Nada de catálogos ni de mensajes diarios, lo prometo.</p>
+    <p class="correo" id="mail"></p>
+    <div class="caja">
+      <h2>Ya que estás aquí</h2>
+      <p>Hice un test de 3 minutos que te dice qué necesita tu piel, en qué orden se usa y cuánto sale. Es el mejor lugar para empezar.</p>
+      <a class="btn" href="https://valromo2018-hub.github.io/quiz-piel-vale/">Hacer el test</a>
+    </div>
+    <p>Y si algún día ya no quieres saber de esto, me dices y te saco. Sin drama.</p>
+  </div>
+
+  <div id="pide" hidden>
+    <h1>Una cosa más.</h1>
+    <p>Déjame tu correo y con eso te anoto para lo de piel.</p>
+    <form id="f">
+      <input id="e" type="email" required placeholder="tucorreo@ejemplo.com" autocomplete="email">
+      <button type="submit">Anótame</button>
+    </form>
+  </div>
+
+  <p class="fine">Tu correo se usa solo para mandarte esto y para que yo sepa que dijiste que sí; no se comparte con nadie. Valeria Romo es Afiliada de Marca independiente de Nu Skin; esta página es suya y no es un sitio oficial de la marca.</p>
+</div>
+
+<script>
+(function(){
+  var FORMA = "https://docs.google.com/forms/d/e/1FAIpQLSfkf5s68gTiWGEiLVHEd61UlLufP-tj1RHhQ_mIoWL8Plqp0g/formResponse";
+  var C_NOMBRE = "entry.2058487899", C_RESULTADO = "entry.310095315";
+  function $(id){ return document.getElementById(id); }
+  function apunta(correo){
+    try{
+      var c = new URLSearchParams();
+      c.append(C_NOMBRE, correo);
+      c.append(C_RESULTADO, "QUIERE LO DE PIEL (lista de chocolateria) · " + correo + " · " + new Date().toLocaleString("es-MX"));
+      fetch(FORMA, { method:"POST", mode:"no-cors", body: c });
+    }catch(e){}
+    $("mail").textContent = correo;
+    $("pide").hidden = true;
+    $("ok").hidden = false;
+    try{ localStorage.setItem("piel-si", correo); }catch(e){}
+  }
+  var e = "";
+  try{ e = (new URLSearchParams(location.search).get("e") || "").trim(); }catch(err){}
+  if(e && e.indexOf("@") > 0){ apunta(e); }
+  else {
+    $("pide").hidden = false;
+    $("f").addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var v = $("e").value.trim();
+      if(v.indexOf("@") > 0) apunta(v);
+    });
+  }
+})();
+</script>
