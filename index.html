@@ -278,7 +278,7 @@ footer p{margin:0 0 8px;max-width:76ch}
         <a class="hero-direct" href="#calc">¿Ya sabes qué quieres? Arma tu pedido directo →</a>
         <small>3 minutos · sin compromiso</small>
       </div>
-      <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
+      <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento en tu primera compra. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
     </div>
     <div class="hero-art">
       <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">    </div>
@@ -325,7 +325,7 @@ footer p{margin:0 0 8px;max-width:76ch}
       <div class="shopbox">
         <div>
           <strong>¿Cómo la compro?</strong>
-          <p class="promo in-box"><span>%</span> <b>Mándame tu lista y yo te la proceso con 10% de descuento.</b></p>
+          <p class="promo in-box"><span>%</span> <b>Mándame tu lista y yo te la proceso con 10% de descuento en tu primera compra.</b></p>
           <label class="namefield" for="r-name">¿Cómo te llamas? (para saber que eres tú)
             <input id="r-name" type="text" autocomplete="given-name" placeholder="Tu nombre">
           </label>
@@ -347,7 +347,7 @@ footer p{margin:0 0 8px;max-width:76ch}
           <li><span class="bn">✓</span><span><b>Son el número 1 del mundo en aparatos de belleza</b>En sistemas de dispositivos de belleza y bienestar de uso doméstico.</span></li>
         </ul>
         <p class="src">Fuente del tercer punto: Euromonitor International Limited, investigación de abril–mayo 2024, citada en el catálogo Nu Skin México 2026. Los resultados varían entre cada persona.</p>
-        <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% ↗</a>
+        <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% 1ª compra ↗</a>
       </section>
       <section class="refer" aria-labelledby="refer-title">
         <h3 id="refer-title">Mi 10% también es para quien te lo pase</h3>
@@ -384,7 +384,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     <span class="num" id="t-total-wrap">Total <strong id="t-total"></strong></span>
     <span class="num" id="t-sub-wrap">Sin descuento <strong id="t-sub"></strong></span>
     <a class="ghost tray-shop" id="t-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Abrir mi cuenta ↗</a>
-    <a class="primary" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandar mi lista · 10% ↗</a>
+    <a class="primary" id="t-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandar mi lista · 10% 1ª compra ↗</a>
   </div>
 </div>
 
@@ -524,7 +524,7 @@ footer p{margin:0 0 8px;max-width:76ch}
 
   /* ---------- recommendation ---------- */
   var CAPS={"1500":2000,"4000":4000,"6500":6500,"10000":10000};
-  var DISC=0.10;  // el 10% que Valeria siempre puede dar si le mandan la lista
+  var DISC=0.10;  // 10% solo en la PRIMERA compra (decision de Valeria 26-sep); recompras a precio de catalogo
   function discount(n){ return Math.round(n*DISC); }
   function recommend(a){
     var steps=[], later=[], notes=[];
@@ -736,7 +736,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   function updateWa(){
     if(!lastResult) return;
     var nm=($("r-name").value||"").trim();
-    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista con el 10% de descuento?\n";
+    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista? (Si es mi primera compra, con tu 10%)\n";
     $("r-wa").href=waLink(intro+shareText(routineIds(),TITLES[ans.goal]));
     var w2=$("r-wa2"); if(w2) w2.href=$("r-wa").href;
     updateRefer();   // el botón del cierre manda el mismo mensaje
@@ -754,13 +754,13 @@ footer p{margin:0 0 8px;max-width:76ch}
     var desc=discount(sub), pagas=sub-desc+ship;
     var rows=[[(packMode?"Paquete completo (":"Tu rutina (")+n+(n===1?" producto":" productos")+")", mx(base)]];
     if(lastDev) rows.push(["+ "+P[lastDev].n, mx(devP)]);
-    rows.push(["Mi 10% de descuento", "− "+mx(desc)]);
+    rows.push(["10% en tu primera compra", "− "+mx(desc)]);
     rows.push(["Envío (aprox.)", SHIP ? mx(SHIP) : "se calcula al pagar"]);
     var html=rows.map(function(x){return '<div class="tb-row"><span>'+x[0]+'</span><span class="num">'+x[1]+'</span></div>'}).join('');
     if(isFinite(r.cap) && pagas>r.cap) html+='<div class="tb-warn">Pasa tu presupuesto por '+mx(pagas-r.cap)+(SHIP?"":" sin contar el envío")+'.</div>';
     $("r-lines").innerHTML=html;
     $("r-total").textContent=mx(pagas);
-    $("r-count").textContent=SHIP ? "con mi 10% y envío aprox." : "con mi 10%, más envío";
+    $("r-count").textContent=SHIP ? "con 10% de 1ª compra y envío aprox." : "con 10% de 1ª compra, más envío";
   }
 
   /* ---------- aparato sugerido (opcional) ---------- */
@@ -868,7 +868,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     ids.forEach(function(id){lines.push("• "+P[id].n+" — "+mx(P[id].p))});
     var tot=ids.reduce(function(s,id){return s+P[id].p},0);
     lines.push("Precio de lista: "+mx(tot));
-    lines.push(SHIP ? "Con tu 10% y envío aprox.: "+mx(tot-discount(tot)+SHIP) : "Con tu 10%: "+mx(tot-discount(tot))+" + envío");
+    lines.push(SHIP ? "Con 10% de primera compra y envío aprox.: "+mx(tot-discount(tot)+SHIP) : "Con 10% de primera compra: "+mx(tot-discount(tot))+" + envío");
     if(Object.keys(ans).length===Q.length) lines.push("Mi piel: "+label("skin",ans.skin)+" · Quiero mejorar: "+label("goal",ans.goal));
     return lines.join("\n");
   }
@@ -912,7 +912,7 @@ footer p{margin:0 0 8px;max-width:76ch}
       "Lava con: " + label("wash", ans.wash),
       "Tecnologia: " + label("tech", ans.tech),
       "Productos: " + ids.map(function(id){return P[id].n}).join(", "),
-      "Con tu 10% y envio: " + mx(tot - discount(tot) + shipping(tot)),
+      "Con 10% de primera compra y envio: " + mx(tot - discount(tot) + shipping(tot)),
       DE ? "Llego por: " + DE : "Llego directo"
     ];
     try{
@@ -968,7 +968,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     $("tray").hidden=false;
     if(!ids.length){
       // sin productos todavía: la barra invita a armar la rutina y deja a la mano WhatsApp y la tienda
-      $("t-count").textContent="Arma tu lista · 10% de descuento conmigo";
+      $("t-count").textContent="Arma tu lista · 10% en tu primera compra";
       $("t-total-wrap").hidden=true;
       $("t-sub-wrap").hidden=true;
       $("t-wa").href=waLink("Hola Valeria,vi tu quiz de piel y tengo una duda.");
@@ -977,12 +977,12 @@ footer p{margin:0 0 8px;max-width:76ch}
     $("t-total-wrap").hidden=false;
     var tot=0, sub=0, anySub=false;
     ids.forEach(function(id){tot+=P[id].p; sub+=(P[id].s||P[id].p); if(P[id].s) anySub=true;});
-    $("t-count").textContent=ids.length+(ids.length===1?" producto":" productos")+" · con mi 10%";
+    $("t-count").textContent=ids.length+(ids.length===1?" producto":" productos")+" · 10% en 1ª compra";
     $("t-total").textContent=mx(tot-discount(tot)+shipping(tot));
     // al lado del total va el precio de lista, para que se vea lo que ahorra con el 10%
     $("t-sub").textContent=mx(tot+shipping(tot));
     $("t-sub-wrap").hidden=false;
-    $("t-wa").href=waLink("Hola Valeria, armé mi lista con tu guía de piel. ¿Me la procesas con el 10% de descuento?\n"+shareText(ids,"Mi lista de productos"));
+    $("t-wa").href=waLink("Hola Valeria, armé mi lista con tu guía de piel. ¿Me la procesas? (Si es mi primera compra, con tu 10%)\n"+shareText(ids,"Mi lista de productos"));
   }
   $("filters").addEventListener("click",function(e){var b=e.target.closest(".filter"); if(!b) return; filter=b.getAttribute("data-f"); renderFilters(); renderGrid();});
   $("grid").addEventListener("click",function(e){
