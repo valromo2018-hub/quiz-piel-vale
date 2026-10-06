@@ -262,6 +262,9 @@ textarea.share{width:100%;min-height:150px;margin-top:12px;font:13.5px/1.5 "IBM 
 footer{margin-top:64px;border-top:1px solid var(--line);padding-top:22px;font-size:13px;color:var(--muted)}
 footer p{margin:0 0 8px;max-width:76ch}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* 5-oct-2026: el test ya no muestra catalogo ni precios (la gente lo confundia con el test) */
+#calc,#tray,#r-pack,.totalbox,#r-later-wrap,#r-up,.rprice{display:none!important}
 </style>
 
 <div class="wrap">
@@ -271,14 +274,12 @@ footer p{margin:0 0 8px;max-width:76ch}
       <p class="hero-eyebrow">Piel de cristal · 4 pasos</p>
       <h1 id="hero-title">Logra tu <span class="glass">glass skin</span></h1>
       <p class="hero-greet">La rutina coreana que a todas nos gusta, en cuatro pasos</p>
-      <p class="hero-note">Piel lisa que refleja la luz. En unas preguntas te digo qué necesita la tuya, en qué orden se usa y cuánto sale —sin los diez pasos y sin reponer todo cada trimestre.</p>
+      <p class="hero-note">Piel lisa que refleja la luz. En unas preguntas te digo qué necesita la tuya, en qué orden se usa —sin los diez pasos y sin reponer todo cada trimestre.</p>
       <p class="hero-note">Si algo te late, yo te acompaño en todo. Y si no, igual me encanta que te regales este ratito.</p>
       <div class="hero-cta">
-        <a class="primary" href="#quiz">Haz tu quiz y arma tu pedido</a>
-        <a class="hero-direct" href="#calc">¿Ya sabes qué quieres? Arma tu pedido directo →</a>
-        <small>3 minutos · sin compromiso</small>
+        <a class="primary" href="#quiz">Empezar mi test</a>
+        <small>3 minutos · sin compromiso · al final te digo qué te va</small>
       </div>
-      <p class="promo"><span>%</span> Al final mándame tu lista y yo te la proceso con 10% de descuento en tu primera compra. <a href="https://wa.me/525560556074?text=Hola%20Valeria%2C%20%C2%BFc%C3%B3mo%20funciona%20el%2010%25%20de%20descuento%3F" target="_blank" rel="noopener">Pregúntame ↗</a></p>
     </div>
     <div class="hero-art">
       <img class="hero-photo" src="img/entrada-lumispa.jpg" alt="Sistema LumiSpa iO rosa con su gel limpiador azul" width="1138" height="770">    </div>
@@ -324,18 +325,17 @@ footer p{margin:0 0 8px;max-width:76ch}
       </div>
       <div class="shopbox">
         <div>
-          <strong>¿Cómo la compro?</strong>
-          <p class="promo in-box"><span>%</span> <b>Mándame tu lista y yo te la proceso con 10% de descuento en tu primera compra.</b></p>
+          <strong>¿Te late? Platiquémoslo</strong>
+          <p class="alt-buy">Mándame tu resultado por WhatsApp y te cuento cómo lo uso yo, sin compromiso.</p>
           <label class="namefield" for="r-name">¿Cómo te llamas? (para saber que eres tú)
             <input id="r-name" type="text" autocomplete="given-name" placeholder="Tu nombre">
           </label>
-          <a class="wa" id="r-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria por WhatsApp ↗</a>
+          <a class="wa" id="r-wa" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi resultado a Valeria ↗</a>
           <p class="alt-buy">¿Prefieres hacerlo tú? <a id="r-shop" href="https://nskn.co/6cf3HQ" target="_blank" rel="noopener">Abre tu cuenta de clienta conmigo ↗</a> (es gratis y queda ligada a mí) y luego compras a la hora que quieras con <b>"Ver en la tienda"</b> en cada producto.</p>
         </div>
       </div>
       <div class="actions">
         <button type="button" class="ghost" id="r-copy">Copiar mi resultado</button>
-        <button type="button" class="ghost" id="r-edit">Ajustar en la calculadora ↓</button>
         <span class="copied" id="r-copied" hidden>Copiado. Pégalo en nuestro chat de WhatsApp.</span>
       </div>
       <section class="brandout" aria-labelledby="brand-title">
@@ -347,11 +347,11 @@ footer p{margin:0 0 8px;max-width:76ch}
           <li><span class="bn">✓</span><span><b>Son el número 1 del mundo en aparatos de belleza</b>En sistemas de dispositivos de belleza y bienestar de uso doméstico.</span></li>
         </ul>
         <p class="src">Fuente del tercer punto: Euromonitor International Limited, investigación de abril–mayo 2024, citada en el catálogo Nu Skin México 2026. Los resultados varían entre cada persona.</p>
-        <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi lista a Valeria · 10% 1ª compra ↗</a>
+        <a class="wa" id="r-wa2" href="https://wa.me/525560556074" target="_blank" rel="noopener">Mandarle mi resultado a Valeria ↗</a>
       </section>
       <section class="refer" aria-labelledby="refer-title">
-        <h3 id="refer-title">Mi 10% también es para quien te lo pase</h3>
-        <p>Si le mandas el test a una amiga, su pedido lleva el mismo descuento que el tuyo. Y al tuyo, cuando alguien llegue por ti, le agrego un detalle de mi parte.</p>
+        <h3 id="refer-title">¿Se lo pasas a una amiga?</h3>
+        <p>Si te sirvió, compártele el test. Son 3 minutos.</p>
         <div class="refer-acts">
           <a class="wa" id="r-refer" href="#" target="_blank" rel="noopener">Pasarle el test por WhatsApp ↗</a>
           <button type="button" class="ghost" id="r-link">Copiar mi link</button>
@@ -736,7 +736,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   function updateWa(){
     if(!lastResult) return;
     var nm=($("r-name").value||"").trim();
-    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu quiz de piel. ¿Me procesas esta lista? (Si es mi primera compra, con tu 10%)\n";
+    var intro="Hola Valeria, "+(nm ? "soy "+nm+". Hice" : "hice")+" tu test de piel y me salió esto:\n";
     $("r-wa").href=waLink(intro+shareText(routineIds(),TITLES[ans.goal]));
     var w2=$("r-wa2"); if(w2) w2.href=$("r-wa").href;
     updateRefer();   // el botón del cierre manda el mismo mensaje
@@ -827,7 +827,7 @@ footer p{margin:0 0 8px;max-width:76ch}
     var why = ans.time==="2" ? "Dos pasos: limpiar en la noche y en la mañana, y una crema que ya protege del sol."
       : "Primero lo básico (limpiar, hidratar, proteger) y encima un producto para lo que quieres mejorar.";
     $("r-why").textContent=why;
-    $("r-chips").innerHTML=[label("goal",ans.goal),label("skin",ans.skin),label("age",ans.age),ans.care!=="nada"?label("care",ans.care):null,"Hoy uso: "+label("current",ans.current).toLowerCase(),ans.wash==="lumispa"?"Lavar: con LumiSpa":null,"Protector: "+label("sun",ans.sun).toLowerCase(),label("time",ans.time),ans.tech!=="no"?"Tecnología: "+label("tech",ans.tech).toLowerCase():null,label("budget",ans.budget)]
+    $("r-chips").innerHTML=[label("goal",ans.goal),label("skin",ans.skin),label("age",ans.age),ans.care!=="nada"?label("care",ans.care):null,"Hoy uso: "+label("current",ans.current).toLowerCase(),ans.wash==="lumispa"?"Lavar: con LumiSpa":null,"Protector: "+label("sun",ans.sun).toLowerCase(),label("time",ans.time),ans.tech!=="no"?"Tecnología: "+label("tech",ans.tech).toLowerCase():null]
       .filter(Boolean)
       .map(function(t){return '<span class="chip">'+t+'</span>'}).join('');
     $("r-routine").innerHTML=r.steps.map(function(s){
@@ -865,10 +865,7 @@ footer p{margin:0 0 8px;max-width:76ch}
 
   function shareText(ids,title){
     var lines=[title||"Mi rutina"];
-    ids.forEach(function(id){lines.push("• "+P[id].n+" — "+mx(P[id].p))});
-    var tot=ids.reduce(function(s,id){return s+P[id].p},0);
-    lines.push("Precio de lista: "+mx(tot));
-    lines.push(SHIP ? "Con 10% de primera compra y envío aprox.: "+mx(tot-discount(tot)+SHIP) : "Con 10% de primera compra: "+mx(tot-discount(tot))+" + envío");
+    ids.forEach(function(id){lines.push("• "+P[id].n)});
     if(Object.keys(ans).length===Q.length) lines.push("Mi piel: "+label("skin",ans.skin)+" · Quiero mejorar: "+label("goal",ans.goal));
     return lines.join("\n");
   }
@@ -891,7 +888,7 @@ footer p{margin:0 0 8px;max-width:76ch}
   function referText(){
     var nm=($("r-name").value||"").trim();
     return "Hola! Hice este test de piel de 3 minutos y me dijo justo qué necesito" + (nm?" (me lo pasó "+nm+")":"") +
-      ". Pruébalo y dile que vas de mi parte, así te dan el mismo descuento que a mí: " + miLink();
+      ". Pruébalo: " + miLink();
   }
   /* ---------- el resultado se guarda en la hoja de Valeria ---------- */
   var FORMA = "https://docs.google.com/forms/d/e/1FAIpQLSfkf5s68gTiWGEiLVHEd61UlLufP-tj1RHhQ_mIoWL8Plqp0g/formResponse";
@@ -933,7 +930,6 @@ footer p{margin:0 0 8px;max-width:76ch}
   $("r-refer").addEventListener("click", updateRefer);
   $("r-link").addEventListener("click", function(){ copy(miLink()); });
   $("r-copy").addEventListener("click",function(){ copy(shareText(routineIds(),TITLES[ans.goal])); });
-  $("r-edit").addEventListener("click",function(){ $("calc").scrollIntoView({behavior:"smooth",block:"start"}); });
   $("r-name").addEventListener("input",updateWa);
   ["r-wa","r-wa2","t-wa"].forEach(function(id){ var b=$(id); if(b) b.addEventListener("click", function(){ avisar("me mando su lista"); }); });
   $("r-up").addEventListener("click",function(e){ if(e.target.closest("#up-add")){ addDev=!addDev; showResult(false); var b=$("up-add"); if(b) b.focus(); } });
